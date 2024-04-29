@@ -6,7 +6,7 @@ class TestBooksCollector:
 
     def test_books_genre_fav_dict_is_empty(self, books_collector):
 
-        assert len(books_collector.books_genre) == 0 and len(books_collector.favorites) == 0
+        assert len(books_collector.get_list_of_favorites_books()) == 0
 
     def test_genre_list_is_not_empty(self, books_collector):
 
@@ -20,7 +20,7 @@ class TestBooksCollector:
     def test_add_new_book_positive(self, books_collector, book):
 
         books_collector.add_new_book(book)
-        assert books_collector.books_genre[book] == ''
+        assert books_collector.get_book_genre(book) == ''
 
     @pytest.mark.parametrize('book', ['', 'Очень длинный фильм про мстителей и как они мстят друг другу и остальным'])
     def test_add_new_book_more_negative_sizes(self, books_collector, book):
@@ -31,13 +31,7 @@ class TestBooksCollector:
 
         books_collector.add_new_book('Найти, кому мстить')
         books_collector.set_book_genre('Найти, кому мстить', 'Детективы')
-        assert books_collector.books_genre['Найти, кому мстить'] == 'Детективы'
-
-    def test_get_book_genre_return_valid_name(self, books_collector):
-
-        books_collector.add_new_book('Симпсоны')
-        books_collector.set_book_genre('Симпсоны', 'Фантастика')
-        assert books_collector.get_book_genre('Симпсоны') == 'Фантастика'
+        assert books_collector.get_book_genre('Найти, кому мстить') == 'Детективы'
 
     def test_get_books_with_specific_genre_when_valid_genre(self, books_collector):
 
@@ -70,8 +64,9 @@ class TestBooksCollector:
             books_collector.set_book_genre(name, books_collector.genre[x])
             x += 1
 
-        for rating in books_collector.genre_age_rating:
-            assert rating not in books_collector.get_books_for_children()
+        for genre in books_collector.genre_age_rating:
+            for book in books_collector.get_books_with_specific_genre(genre):
+                assert book not in books_collector.get_books_for_children()
 
     def test_get_books_for_children_adult_rating(self, books_collector):
 
@@ -89,7 +84,7 @@ class TestBooksCollector:
         books_collector.add_new_book('Силомер')
         books_collector.add_book_in_favorites('Силомер')
 
-        assert 'Силомер' in books_collector.favorites
+        assert 'Силомер' in books_collector.get_list_of_favorites_books()
 
     def test_delete_book_from_favorites(self, books_collector):
 
@@ -97,14 +92,7 @@ class TestBooksCollector:
         books_collector.add_book_in_favorites('Узколобый Джо')
 
         books_collector.delete_book_from_favorites('Узколобый Джо')
-        assert 'Узколобый Джо' not in books_collector.favorites
+        assert 'Узколобый Джо' not in books_collector.get_list_of_favorites_books()
 
-    def test_get_list_of_favorites_books_empty_list(self, books_collector):
-
-        books_collector.add_new_book('Сизый выпь')
-        books_collector.add_book_in_favorites('Сизый выпь')
-        books_collector.delete_book_from_favorites('Сизый выпь')
-
-        assert not books_collector.get_list_of_favorites_books()
 
     

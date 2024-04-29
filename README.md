@@ -19,9 +19,6 @@
 Тест с параметризацией добавляет новые книги и проверяет задавание книгам жанров
     test_set_book_genre_valid_name
 
-Тест проверяет возвращение жанра книги по названию
-    test_get_book_genre_return_valid_name
-
 Тест проверяет что выводится список книг по определенным жанрам.
     test_get_books_with_specific_genre_when_valid_genre
 
@@ -40,12 +37,5 @@
  Тест проверяет что книга добавленная в избранное есть в избранном 
     test_add_book_in_favorites_when_books_in_list
 
- Тест проверяет что нельзя добавить книгу в избранное, если её нет в списке книг.
-    test_add_book_in_favorites_when_book_not_in_list
-
  Тест проверяет удаление книги из избранного.
     test_delete_book_from_favorites
-
- Тест проверяет что после удаления единственной книги из списка избранного, 
-метод получения списка избранного вернет пустой список.
-    test_get_list_of_favorites_books_empty_list
